@@ -67,20 +67,39 @@ def delete_user(token: str):
     return response
 
 
-def valid_credentials_log_in(page: MainPage):
+# def valid_credentials_log_in(page: MainPage):
+#     """
+#     Авторизует пользователя с использованием данных, сгенерированных для регистрации.
+#     """
+#     user_data = create_user_credentials()
+#     response = register_user(user_data)
+#     response_data = response.json()
+#     user = response_data.get("user", {})
+#     email = user.get("email")
+#     password = user_data["password"]
+#     page.driver.get(URLS['login_page_url'])
+#     page.add_text_to_element(LoginPageLocators.EMAIL_INPUT_LOGIN_PAGE, email)
+#     page.add_text_to_element(LoginPageLocators.PASSWORD_INPUT_LOGIN_PAGE, password)
+#     page.click_on_element_js(LoginPageLocators.LOGIN_BUTTON)
+
+def valid_credentials_log_in(page: MainPage, user_data):
     """
     Авторизует пользователя с использованием данных, сгенерированных для регистрации.
     """
-    user_data = create_user_credentials()
-    response = register_user(user_data)
-    response_data = response.json()
-    user = response_data.get("user", {})
-    email = user.get("email")
-    password = user_data["password"]
+    email = user_data[0]
+    password = user_data[1]
     page.driver.get(URLS['login_page_url'])
     page.add_text_to_element(LoginPageLocators.EMAIL_INPUT_LOGIN_PAGE, email)
     page.add_text_to_element(LoginPageLocators.PASSWORD_INPUT_LOGIN_PAGE, password)
     page.click_on_element_js(LoginPageLocators.LOGIN_BUTTON)
+
+
+def login_user(login_data):
+    """
+    Метод для логина пользователя через api
+    """
+    response = requests.post(URLS['login_user_url'], json=login_data)
+    return response
 
 
 

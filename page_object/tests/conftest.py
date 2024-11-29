@@ -1,7 +1,7 @@
 import pytest
 from selenium import webdriver
 from page_object.data import URLS
-from page_object.helpers import create_user_credentials, register_user, delete_user
+from page_object.helpers import create_user_credentials, register_user, delete_user, login_user
 from page_object.pages.login_page import LoginPage
 from page_object.pages.main_page import MainPage
 from page_object.pages.forgot_password_page import ForgotPasswordPage
@@ -82,23 +82,13 @@ def constructor_page(drivers):
 @pytest.fixture
 def user_data():
     """
-    Фикстура для создания пользователя, авторизации и удаления пользователя после теста.
+    Фикстура для создания пользователя, регистрации и удаления пользователя после теста.
     Генерирует уникальные данные для регистрации, возвращает почту, пароль и токен.
     """
-    # Шаг 1: Создаем данные для пользователя
     user_data = create_user_credentials()
-
-    # Шаг 2: Регистрируем пользователя через API
     response = register_user(user_data)
     response_data = response.json()
     token = response_data.get("accessToken")
-
-    # Шаг 3: Если регистрация успешна, возвращаем данные для авторизации и токен
     assert token, "Токен не получен, регистрация не удалась."
-    yield user_data, token  # Возвращаем данные для теста
-
-    # Шаг 4: Удаляем пользователя после выполнения теста
+    yield user_data["email"], user_data["password"], token
     delete_user(token)
-
-
-

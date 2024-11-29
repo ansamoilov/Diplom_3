@@ -11,7 +11,7 @@ class TestPersonaLAccount:
     def test_personal_account_button_redirects_to_account_page(self, login_page, is_logged_in):
         for browser, page in login_page.items():
             if is_logged_in:
-                valid_credentials_log_in(page)
+                valid_credentials_log_in(page, user_data)
                 page.check_url(URLS['main_page_url'])
                 main_page = MainPage(page.driver)
                 main_page.click_profile_button()
@@ -25,7 +25,7 @@ class TestPersonaLAccount:
     def test_go_to_orders_history(self, login_page, is_logged_in):
         for browser, page in login_page.items():
             if is_logged_in:
-                valid_credentials_log_in(page)
+                valid_credentials_log_in(page, user_data)
                 page.check_url(URLS['main_page_url'])
                 main_page = MainPage(page.driver)
                 main_page.click_profile_button()
@@ -35,10 +35,10 @@ class TestPersonaLAccount:
                 profile_page.check_url(URLS['order_history_page_url'])
 
     @pytest.mark.parametrize("is_logged_in", [True])
-    def test_logout_from_account(self, login_page, is_logged_in):
+    def test_logout_from_account(self, login_page, is_logged_in, user_data):
         for browser, page in login_page.items():
             if is_logged_in:
-                valid_credentials_log_in(page)
+                valid_credentials_log_in(page, user_data)
                 page.check_url(URLS['main_page_url'])
                 main_page = MainPage(page.driver)
                 main_page.click_profile_button()
