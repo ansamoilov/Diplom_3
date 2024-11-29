@@ -1,4 +1,5 @@
 import allure
+
 from page_object.pages.base_page import BasePage
 from page_object.locators.main_page_locators import MainPageLocators
 from page_object.pages.general_methods import GeneralMethods

@@ -46,3 +46,5 @@ class TestPersonaLAccount:
                 profile_page.check_url(URLS['profile_page_url'])
                 profile_page.click_logout_button()
                 profile_page.check_url(URLS['login_page_url'])
+
+

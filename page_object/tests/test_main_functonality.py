@@ -1,6 +1,8 @@
 import allure
 import pytest
 
+from page_object.pages.main_page import MainPage
+
 from page_object.data import URLS
 
 
