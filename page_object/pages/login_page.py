@@ -11,4 +11,7 @@ class LoginPage(BasePage):
 
     @allure.step('Кликаем по кнопке "Забыли пароль?"')
     def click_forgot_password_button(self):
+        """
+        Клик по кнопке "Забыли пароль"
+        """
         self.click_to_element(LoginPageLocators.FORGOT_PASSWORD_BUTTON)

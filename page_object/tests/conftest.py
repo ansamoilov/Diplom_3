@@ -68,4 +68,14 @@ def reset_password_page(drivers):
     return reset_pages
 
 
+@pytest.fixture
+def constructor_page(drivers):
+    orders_feed_page_url = URLS['orders_feed_page_url']
+    constructor_pages = {}
+    for browser, driver in drivers.items():
+        driver.get(orders_feed_page_url)
+        constructor_pages[browser] = MainPage(driver)
+    return constructor_pages
+
+
 
