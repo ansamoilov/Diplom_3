@@ -16,7 +16,9 @@ class ForgotPasswordPage(BasePage):
 
     @allure.step('Клик на кнопку "Восстановить пароль"')
     def click_forgot_password_button(self):
+        self.general_methods.wait_for_modal_overlay_to_disappear()
         self.scroll_to_element(ForgotPasswordPageLocators.RESET_BUTTON)
+        self.wait_element_to_be_clickable(ForgotPasswordPageLocators.RESET_BUTTON)
         self.click_to_element(ForgotPasswordPageLocators.RESET_BUTTON)
 
     @allure.step('Вводим случайную почту в поле восстановления пароля')
@@ -40,7 +42,6 @@ class ForgotPasswordPage(BasePage):
     @allure.step('Кликаем по кнопке "Восстановить"')
     def click_reset_button(self):
         self.general_methods.wait_for_modal_overlay_to_disappear()
-        self.scroll_to_element(ForgotPasswordPageLocators.RESET_BUTTON)
         self.wait_element_to_be_clickable(ForgotPasswordPageLocators.RESET_BUTTON)
-        self.click_to_element(ForgotPasswordPageLocators.RESET_BUTTON)
+        self.click_on_element_js(ForgotPasswordPageLocators.RESET_BUTTON)
 

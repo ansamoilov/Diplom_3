@@ -10,8 +10,8 @@ from page_object.pages.reset_password_page import ResetPasswordPage
 @pytest.fixture(scope="function")
 def drivers():
     drivers = {
-        # "firefox": webdriver.Firefox(),
-        "chrome": webdriver.Chrome()
+        "firefox": webdriver.Firefox(),
+        # "chrome": webdriver.Chrome()
     }
     yield drivers
     for driver in drivers.values():
@@ -63,5 +63,9 @@ def reset_password_page(drivers):
         driver.get(forgot_password_url)
         forgot_password_page = ForgotPasswordPage(driver)
         forgot_password_page.click_reset_button()
-        reset_pages[browser] = ResetPasswordPage(driver)
+        reset_password_page = ResetPasswordPage(driver)
+        reset_pages[browser] = reset_password_page
     return reset_pages
+
+
+

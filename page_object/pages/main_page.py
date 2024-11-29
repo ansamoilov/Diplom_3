@@ -17,10 +17,5 @@ class MainPage(BasePage):
         self.click_to_element(MainPageLocators.LOGIN_BUTTON)
         self.check_url(URLS['login_page_url'])
 
-    @allure.step('Кликаем на кнопку "Личный кабинет"')
     def click_profile_button(self):
-        self.general_methods.wait_for_modal_overlay_to_disappear()
-        self.scroll_to_element(MainPageLocators.PROFILE_BUTTON_MAIN)
-        self.wait_element_to_be_clickable(MainPageLocators.PROFILE_BUTTON_MAIN)
-        self.click_to_element(MainPageLocators.PROFILE_BUTTON_MAIN)
-
+        self.move_to_element_and_click(MainPageLocators.PROFILE_BUTTON_MAIN)

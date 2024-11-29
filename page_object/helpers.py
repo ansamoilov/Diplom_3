@@ -33,4 +33,5 @@ def valid_credentials_log_in(page: BasePage):
     password = "14123!"
     page.add_text_to_element(LoginPageLocators.EMAIL_INPUT_LOGIN_PAGE, email)
     page.add_text_to_element(LoginPageLocators.PASSWORD_INPUT_LOGIN_PAGE, password)
-    page.click_to_element(LoginPageLocators.LOGIN_BUTTON)
+    page.click_on_element_js(LoginPageLocators.LOGIN_BUTTON)
+

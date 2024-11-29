@@ -1,4 +1,6 @@
 import allure
+import pytest
+
 from page_object.data import URLS
 
 
@@ -6,11 +8,14 @@ class TestPasswordRecovery:
 
     @allure.title('Проверка перехода на страницу восстановления пароля')
     @allure.description('Тест проверяет переход на страницу восстановления пароля по кнопке "Восстановить пароль"')
-    def test_go_to_forgot_password_page(self, login_page):
+    @pytest.mark.parametrize("is_logged_in", [True, False])
+    def test_go_to_forgot_password_page(self, login_page, is_logged_in):
         for browser, page in login_page.items():
             page.click_forgot_password_button()
-            page.check_url(URLS['forgot_password_url']), \
-                f"Ожидался URL {URLS['forgot_password_url']}, но был {page.driver.current_url}"
+            current_url = page.driver.current_url
+            expected_url = URLS['forgot_password_url']
+            assert current_url == expected_url, \
+                f"Ожидался URL {expected_url}, но был {current_url}"
 
     @allure.title('Проверка ввода случайной почты для восстановления пароля')
     @allure.description('Тест проверяет ввод случайной почты в поле восстановления пароля')
