@@ -130,6 +130,10 @@ class BasePage:
         actions = ActionChains(self.driver)
         actions.move_to_element(element).click().perform()
 
+    def get_value_from_element(self, locator):
+        element = self.find_element_with_wait(locator)
+        return element.get_attribute("value")
+
 # from selenium.webdriver.support import expected_conditions
 # from selenium.webdriver.support.ui import WebDriverWait
 # from selenium.webdriver.support import expected_conditions as EC
@@ -184,9 +188,7 @@ class BasePage:
 #     def switch_browser_tab(self):
 #         self.driver.switch_to.window(self.driver.window_handles[-1])
 #
-#     def get_value_from_element(self, locator):
-#         element = self.find_element_with_wait(locator)
-#         return element.get_attribute("value")
+
 #
 #     def wait_element_to_disappear(self, overlay_locator, timeout=30):
 #         WebDriverWait(self.driver, timeout).until(

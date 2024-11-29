@@ -11,7 +11,7 @@ from page_object.pages.reset_password_page import ResetPasswordPage
 def drivers():
     drivers = {
         "firefox": webdriver.Firefox(),
-        # "chrome": webdriver.Chrome()
+        "chrome": webdriver.Chrome()
     }
     yield drivers
     for driver in drivers.values():

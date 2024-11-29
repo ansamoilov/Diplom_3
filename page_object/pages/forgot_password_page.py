@@ -28,17 +28,6 @@ class ForgotPasswordPage(BasePage):
         input_value = self.get_value_from_element(ForgotPasswordPageLocators.EMAIL_INPUT)
         return random_email, input_value
 
-    # @allure.step('Кликаем по кнопке "Восстановить"')
-    # def click_reset_button(self):
-    #     self.wait_for_modal_to_disappear()
-    #     self.click_to_element(ForgotPasswordPageLocators.RESET_BUTTON)
-    #     self.find_element_with_wait(ResetPasswordPageLocators.SAVE_BUTTON)
-    #     self.check_url(URLS['reset_password_url'])
-
-    @allure.step('Ожидаем, пока модальное окно исчезнет')
-    def wait_for_modal_to_disappear(self, timeout=10):
-        self.wait_element_to_disappear(ForgotPasswordPageLocators.MODAL_OVERLAY, timeout)
-
     @allure.step('Кликаем по кнопке "Восстановить"')
     def click_reset_button(self):
         self.general_methods.wait_for_modal_overlay_to_disappear()

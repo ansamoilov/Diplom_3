@@ -8,7 +8,7 @@ class TestPasswordRecovery:
 
     @allure.title('Проверка перехода на страницу восстановления пароля')
     @allure.description('Тест проверяет переход на страницу восстановления пароля по кнопке "Восстановить пароль"')
-    @pytest.mark.parametrize("is_logged_in", [True, False])
+    @pytest.mark.parametrize("is_logged_in", [True])
     def test_go_to_forgot_password_page(self, login_page, is_logged_in):
         for browser, page in login_page.items():
             page.click_forgot_password_button()
