@@ -5,12 +5,14 @@ from page_object.helpers import generate_random_email
 from page_object.locators.reset_password_page_locators import ResetPasswordPageLocators
 from page_object.pages.base_page import BasePage
 from page_object.locators.forgot_password_page_locators import ForgotPasswordPageLocators
+from page_object.pages.general_methods import GeneralMethods
 
 
 class ForgotPasswordPage(BasePage):
 
     def __init__(self, driver):
         super().__init__(driver)
+        self.general_methods = GeneralMethods(driver)
 
     @allure.step('Клик на кнопку "Восстановить пароль"')
     def click_forgot_password_button(self):
@@ -37,7 +39,8 @@ class ForgotPasswordPage(BasePage):
 
     @allure.step('Кликаем по кнопке "Восстановить"')
     def click_reset_button(self):
-        self.wait_for_modal_to_disappear()
+        self.general_methods.wait_for_modal_overlay_to_disappear()
+        self.scroll_to_element(ForgotPasswordPageLocators.RESET_BUTTON)
         self.wait_element_to_be_clickable(ForgotPasswordPageLocators.RESET_BUTTON)
         self.click_to_element(ForgotPasswordPageLocators.RESET_BUTTON)
-        self.find_element_with_wait(ResetPasswordPageLocators.SAVE_BUTTON)
+

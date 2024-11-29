@@ -1,7 +1,5 @@
 import allure
 from page_object.data import URLS
-from page_object.helpers import generate_random_email, generate_random_password
-from page_object.locators.forgot_password_page_locators import ForgotPasswordPageLocators
 
 
 class TestPasswordRecovery:
@@ -36,4 +34,3 @@ class TestPasswordRecovery:
             page.input_password()
             page.toggle_password_visibility()
             page.check_password_field_highlighted()
-            #в ff инпут перекрывает оверлей, посмотреть

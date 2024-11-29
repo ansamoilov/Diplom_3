@@ -56,30 +56,13 @@ class BasePage:
         element = self.find_element_with_wait(locator)
         return element.get_attribute("value")
 
-    def wait_element_to_disappear(self, locator, timeout=10):
+    def wait_element_to_disappear(self, overlay_locator, timeout=20):
         WebDriverWait(self.driver, timeout).until(
-            EC.invisibility_of_element_located(locator)
+            EC.invisibility_of_element_located(overlay_locator)
         )
 
     def wait_element_to_be_clickable(self, locator, timeout=10):
         WebDriverWait(self.driver, timeout).until(
             EC.element_to_be_clickable(locator)
-        )
-
-    def wait_for_class_in_element(self, locator, class_name, timeout=10):
-        """
-        Ожидаем, пока элемент не получит указанный класс.
-
-        :param locator: Локатор элемента
-        :param class_name: Ожидаемый класс элемента
-        :param timeout: Время ожидания (по умолчанию 10 секунд)
-        """
-        WebDriverWait(self.driver, timeout).until(
-            lambda driver: class_name in self.find_element_with_wait(locator).get_attribute("class")
-        )
-
-    def wait_for_element_to_be_active(self, locator, timeout=10):
-        WebDriverWait(self.driver, timeout).until(
-            EC.presence_of_element_located(locator)
         )
 
