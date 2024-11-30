@@ -20,14 +20,20 @@ class OrderFeedPage(BasePage):
         order_numbers = self.get_text_from_element(OrderFeedPageLocators.ORDER_FEED_ORDER_LIST_ITEM_LOCATOR)
         return order_numbers
 
-    def get_current_counter_value(self):
+    def get_order_feed_counters(self):
         """
-        Получаем текущее значение счетчика на странице "Лента заказов".
-        :return: Текущее значение счетчика в виде числа.
+        Находит все элементы, соответствующие локатору ORDER_FEED_COUNTER_LOCATOR,
+        и возвращает их список.
         """
-        self.find_element_with_wait(OrderFeedPageLocators.ORDER_FEED_COUNTER_LOCATOR, 20)
-        updated_counter_value = self.get_text_from_element(OrderFeedPageLocators.ORDER_FEED_COUNTER_LOCATOR)
-        return updated_counter_value
+        elements = self.find_all_elements(OrderFeedPageLocators.ORDER_FEED_COUNTER_LOCATOR)
+        return elements
 
-    def open_feed_page(self):
-        self.open_url_via_js(URLS['orders_feed_url'])
+    def get_counter_value(self, index):
+        """
+        Получает текст первого счетчика из списка.
+        """
+        counters = self.get_order_feed_counters()
+        if isinstance(index, int):
+            return counters[index].text
+        else:
+            raise TypeError("Index must be an integer")

@@ -249,3 +249,25 @@ class BasePage:
         self.driver.execute_script(f"window.location = '{url}';")
         WebDriverWait(self.driver, 10).until(EC.url_to_be(url))
 
+    def find_all_elements(self, locator, timeout=20):
+        """
+        Находит все элементы, соответствующие локатору, и возвращает их список.
+
+        :param locator: Локатор, по которому нужно найти элементы.
+        :param timeout: Время ожидания видимости элементов (по умолчанию 20 секунд).
+        :return: Список элементов.
+        """
+        elements = WebDriverWait(self.driver, timeout).until(
+            EC.visibility_of_all_elements_located(locator)
+        )
+        return elements
+
+    def get_element_text(self, element):
+        """
+        Получает текст из переданного веб-элемента.
+
+        :param element: Веб-элемент, с которого нужно получить текст.
+        :return: Текст веб-элемента.
+        """
+        return element.text
+

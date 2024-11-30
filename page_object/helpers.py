@@ -169,3 +169,13 @@ def create_user_and_add_ingredient_to_basket(user_data, login_page):
         main_page.check_url(URLS['main_page_url'])
         main_page.drag_ingredient_to_basket()
 
+
+def create_user_and_order_no_auth(user_data):
+    """
+    Создает пользователя, создает заказ без авторизации.
+
+    :param user_data: данные пользователя, полученные из фикстуры
+    """
+    token = user_data[2]
+    response = create_order(URLS['orders_url'], token)
+    assert response.status_code == 200, f"Ошибка создания заказа: {response.text}"
