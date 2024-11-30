@@ -11,9 +11,9 @@ class MyProfilePageLocators:
     # Номер заказа в истории заказов
     ORDER_NUMBER_LOCATOR = (By.XPATH, "//p[@class='text text_type_digits-default']")
 
+    # Плитка заказа в истории заказов
     ORDER_HISTORY_LIST_ITEM_LOCATOR = (By.XPATH, "//li[contains(@class, 'OrderHistory_listItem__2x95r')]")
 
+    # Номер заказа в модальном окне
     MODAL_ORDER_NUMBER_LOCATOR = (
     By.XPATH, "//div[contains(@class, 'Modal_orderBox__1xWdi')]//p[contains(@class, 'text_type_digits-default')]")
-
-
