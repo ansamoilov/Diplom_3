@@ -218,3 +218,14 @@ class BasePage:
             evt.initMouseEvent("dragend", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
             source.dispatchEvent(evt);
         """, element_from, element_to)
+
+    def wait_for_element_text_change(self, locator, initial_value="9999", timeout=30):
+        """
+        Ожидаем, что текст элемента изменится с начального значения "9999" на любое другое значение.
+        """
+
+        WebDriverWait(self.driver, timeout).until(
+            lambda driver: self.get_text_from_element(locator) != initial_value
+        )
+        actual_value = self.get_text_from_element(locator)
+        assert actual_value != initial_value, f"Ожидалось изменение значения с {initial_value}, но оно осталось прежним"

@@ -8,7 +8,7 @@ from page_object.pages.my_profile_page import MyProfilePage
 
 class TestPersonaLAccount:
     @pytest.mark.parametrize("is_logged_in", [False, True])
-    def test_personal_account_button_redirects_to_account_page(self, login_page, is_logged_in):
+    def test_personal_account_button_redirects_to_account_page(self, login_page, is_logged_in, user_data):
         for browser, page in login_page.items():
             if is_logged_in:
                 valid_credentials_log_in(page, user_data)
@@ -22,7 +22,7 @@ class TestPersonaLAccount:
                 page.check_url(URLS['login_page_url'])
 
     @pytest.mark.parametrize("is_logged_in", [True])
-    def test_go_to_orders_history(self, login_page, is_logged_in):
+    def test_go_to_orders_history(self, login_page, is_logged_in, user_data):
         for browser, page in login_page.items():
             if is_logged_in:
                 valid_credentials_log_in(page, user_data)

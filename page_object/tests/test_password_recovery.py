@@ -38,4 +38,4 @@ class TestPasswordRecovery:
         for browser, page in reset_password_page.items():
             page.input_password()
             page.toggle_password_visibility()
-            page.check_password_field_highlighted()
+            assert page.check_password_field_highlighted()

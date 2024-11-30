@@ -12,5 +12,7 @@ URLS = {
     'login_user_url': f'{BASE_URL}auth/user',
     'delete_user_url': f'{BASE_URL}auth/user',
     'register_user_url': f'{BASE_URL}api/auth/register',
-    'login_user_url': f'{BASE_URL}api/auth/login'
+    'login_user_url': f'{BASE_URL}api/auth/login',
+    'orders_url': f'{BASE_URL}api/orders',
+    'ingredients_url': f"{BASE_URL}api/ingredients"
 }

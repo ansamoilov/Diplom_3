@@ -94,13 +94,78 @@ def valid_credentials_log_in(page: MainPage, user_data):
     page.click_on_element_js(LoginPageLocators.LOGIN_BUTTON)
 
 
-def login_user(login_data):
+def get_ingredients():
     """
-    Метод для логина пользователя через api
+    Отправляет запрос на получение списка ингредиентов.
+    Возвращает объект ответа.
     """
-    response = requests.post(URLS['login_user_url'], json=login_data)
+    response = requests.get(URLS['ingredients_url'])
     return response
 
 
+def create_order(url, token=None):
+    """
+    Отправляет запрос на создание заказа с использованием ингредиентов.
 
+    :param url: URL для создания заказа
+    :param token: токен авторизации (опционально)
+    :return: объект ответа
+    """
+    response = get_ingredients()
+
+    if response.status_code == 200:
+        ingredients_data = response.json()
+        ingredients = [ingredient["_id"] for ingredient in ingredients_data["data"][:2]]
+        headers = {}
+        if token:
+            headers["Authorization"] = token
+        payload = {"ingredients": ingredients}
+        response = requests.post(url, json=payload, headers=headers)
+        return response
+        response = requests.post(url, json=payload, headers=headers)
+
+        return response
+    else:
+        print("Не удалось получить ингредиенты.")
+        return response
+
+
+def create_user_and_order(user_data, login_page):
+    """
+    Создает пользователя, создает заказ и логинится этим пользователем через UI.
+
+    :param user_data: данные пользователя, полученные из фикстуры
+    :param login_page: страница логина для каждого браузера
+    :return: возвращает токен пользователя и данные заказа
+    """
+    token = user_data[2]
+    response = create_order(URLS['orders_url'], token)
+    assert response.status_code == 200, f"Ошибка создания заказа: {response.text}"
+    order_data = response.json()
+    assert order_data.get("success") is True, "Не удалось создать заказ"
+    order_id = order_data.get("order", {}).get("number")
+    assert order_id, "Не получен ID заказа"
+    for browser, page in login_page.items():
+        email = user_data[0]
+        password = user_data[1]
+        page.driver.get(URLS['login_page_url'])
+        page.add_text_to_element(LoginPageLocators.EMAIL_INPUT_LOGIN_PAGE, email)
+        page.add_text_to_element(LoginPageLocators.PASSWORD_INPUT_LOGIN_PAGE, password)
+        page.click_on_element_js(LoginPageLocators.LOGIN_BUTTON)
+    return order_id
+
+
+def create_user_and_add_ingredient_to_basket(user_data, login_page):
+    """
+    Создает пользователя, авторизуется и добавляет ингредиент в корзину через UI.
+
+    :param user_data: данные пользователя, полученные из фикстуры
+    :param login_page: страница логина, используемая для UI-логина
+    """
+    for browser, page in login_page.items():
+        valid_credentials_log_in(page, user_data)
+    for browser, page in login_page.items():
+        main_page = MainPage(page.driver)
+        main_page.check_url(URLS['main_page_url'])
+        main_page.drag_ingredient_to_basket()
 

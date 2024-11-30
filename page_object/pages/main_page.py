@@ -1,4 +1,5 @@
 import allure
+from selenium.common import TimeoutException
 
 from page_object.pages.base_page import BasePage
 from page_object.locators.main_page_locators import MainPageLocators
@@ -30,7 +31,11 @@ class MainPage(BasePage):
         """
         Проверяем, что страница конструктора загрузилась.
         """
-        self.wait_for_element_to_be_present(MainPageLocators.CONSTRUCTOR_LOCATOR)
+        try:
+            self.wait_for_element_to_be_present(MainPageLocators.CONSTRUCTOR_LOCATOR)
+            return True
+        except TimeoutException:
+            return False
 
     @allure.step('Кликаем на кнопку "Лента заказов"')
     def click_order_feed_button(self):
@@ -59,7 +64,7 @@ class MainPage(BasePage):
         Проверяем, что модальное окно с деталями ингредиента отображается на странице.
         """
         self.wait_for_element_to_be_present(MainPageLocators.MODAL_WINDOW_LOCATOR)
-        self.check_element_is_visible(MainPageLocators.MODAL_WINDOW_LOCATOR)
+        return self.check_element_is_visible(MainPageLocators.MODAL_WINDOW_LOCATOR)
 
     @allure.step("Закрытие модалки крестиком")
     def close_modal(self):
@@ -96,3 +101,34 @@ class MainPage(BasePage):
         Получаем текущую цену в корзине.
         """
         return self.get_value_from_element(MainPageLocators.BASKET_PRICE_LOCATOR)
+
+    @allure.step("Кликаем на кнопку 'Оформить заказ'")
+    def click_place_order_button(self):
+        """
+        Кликаем на кнопку 'Оформить заказ' на главной странице.
+        """
+        self.click_on_element_js(MainPageLocators.BUTTON_PLACE_ORDER)
+
+    @allure.step("Ожидаем изменения Order ID с 9999 на реальный номер заказа")
+    def wait_for_order_id_to_change(self, timeout=30):
+        """
+        Ожидаем, что текст элемента с order ID изменится с 9999 на другое значение,
+        и возвращаем новый номер заказа.
+        """
+        self.wait_for_element_text_change(
+            MainPageLocators.ORDER_NUMBER_LOCATOR_MODAL,
+            initial_value="9999",
+            timeout=timeout
+        )
+
+        new_order_id = self.get_text_from_element(MainPageLocators.ORDER_NUMBER_LOCATOR_MODAL)
+
+        return new_order_id
+
+    @allure.step("Закрытие модального окна и ожидание его исчезновения")
+    def close_and_wait_for_modal_to_disappear(self):
+        """
+        Кликаем по кнопке закрытия модального окна и ожидаем его исчезновения.
+        """
+        self.click_on_element_js(MainPageLocators.MODAL_CLOSE_BUTTON_LOCATOR)
+        self.wait_element_to_disappear(MainPageLocators.ORDER_NUMBER_LOCATOR_MODAL)

@@ -1,7 +1,7 @@
 import pytest
 from selenium import webdriver
 from page_object.data import URLS
-from page_object.helpers import create_user_credentials, register_user, delete_user, login_user
+from page_object.helpers import create_user_credentials, register_user, delete_user, get_ingredients
 from page_object.pages.login_page import LoginPage
 from page_object.pages.main_page import MainPage
 from page_object.pages.forgot_password_page import ForgotPasswordPage
@@ -92,3 +92,14 @@ def user_data():
     assert token, "Токен не получен, регистрация не удалась."
     yield user_data["email"], user_data["password"], token
     delete_user(token)
+
+
+@pytest.fixture(scope="session")
+def base_ingredients():
+    """
+    Фикстура для получения списка ингредиентов.
+    Выполняется один раз за сессию.
+    """
+    response = get_ingredients()
+    assert response.status_code == 200, f"Ошибка при получении ингредиентов: {response.text}"
+    return response.json()["data"]

@@ -1,7 +1,7 @@
+import allure
 from page_object.helpers import generate_random_password
 from page_object.locators.reset_password_page_locators import ResetPasswordPageLocators
 from page_object.pages.base_page import BasePage
-import allure
 from page_object.pages.general_methods import GeneralMethods
 
 
@@ -43,4 +43,4 @@ class ResetPasswordPage(BasePage):
 
         Используется для проверки, что поле ввода пароля активно после ввода данных.
         """
-        assert self.find_element_with_wait(ResetPasswordPageLocators.ACTIVE_PASSWORD_INPUT)
+        return self.find_element_with_wait(ResetPasswordPageLocators.ACTIVE_PASSWORD_INPUT)

@@ -31,3 +31,15 @@ class MainPageLocators:
 
     # Локатор цены в корзине
     BASKET_PRICE_LOCATOR = (By.CSS_SELECTOR, ".constructor-element__price")
+
+    # Кнопка "Оформить заказ"
+    BUTTON_PLACE_ORDER = (
+    By.XPATH, "//button[contains(@class, 'button_button__33qZ0') and contains(text(), 'Оформить заказ')]")
+
+    ORDER_NUMBER_LOCATOR_MODAL = (By.XPATH, "//h2[contains(@class, 'Modal_modal__title__2L34m')]")
+
+    MODAL_CLOSE_BUTTON_LOCATOR = (By.XPATH,
+                                  "//button[contains(@class, 'Modal_modal__close_modified__3V5XS') and contains(@class, 'Modal_modal__close__TnseK')]")
+
+
+

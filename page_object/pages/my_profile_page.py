@@ -1,4 +1,5 @@
 import allure
+
 from page_object.locators.my_profile_page_locators import MyProfilePageLocators
 from page_object.pages.base_page import BasePage
 
@@ -30,3 +31,26 @@ class MyProfilePage(BasePage):
         Это действие выходит из текущей учетной записи пользователя.
         """
         self.click_to_element(MyProfilePageLocators.LOGOUT_BUTTON)
+
+    @allure.step("Получаем номер заказа с страницы 'Мой аккаунт'")
+    def get_order_number(self):
+        """
+        Получаем номер заказа с страницы 'Мой аккаунт'.
+
+        :return: Номер заказа
+        """
+        element = self.find_element_with_wait(MyProfilePageLocators.ORDER_NUMBER_LOCATOR)
+        return element.text
+
+    @allure.step("Ожидаем, что значение order id изменится с 9999 на новый id")
+    def wait_for_order_id_change(self, expected_order_id):
+        """
+        Ожидает, что значение в локаторе изменится с 9999 на заданный order_id.
+        :param expected_order_id: Новый order_id, который должен появиться.
+        """
+        self.wait_for_element_text_change(MyProfilePageLocators.ORDER_NUMBER_LOCATOR_MODAL, "9999", expected_order_id)
+        actual_order_id = self.get_text_from_element(MyProfilePageLocators.ORDER_NUMBER_LOCATOR_MODAL)
+        assert actual_order_id == str(
+            expected_order_id), f"Ожидался order_id {expected_order_id}, но получен {actual_order_id}"
+
+
