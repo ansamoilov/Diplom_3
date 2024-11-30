@@ -223,7 +223,7 @@ class BasePage:
         """
         Ожидаем, что текст элемента изменится с начального значения "9999" на любое другое значение.
         """
-
+        # Ждем, пока элемент не станет видимым и его текст не изменится
         WebDriverWait(self.driver, timeout).until(
             lambda driver: self.get_text_from_element(locator) != initial_value
         )

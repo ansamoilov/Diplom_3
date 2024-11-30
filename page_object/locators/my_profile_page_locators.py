@@ -9,6 +9,4 @@ class MyProfilePageLocators:
     LOGOUT_BUTTON = (By.XPATH, "//button[text()='Выход']")
 
     # Номер заказа в истории заказов
-    ORDER_NUMBER_LOCATOR = (
-    By.XPATH, "//div[contains(@class, 'OrderHistory_textBox__3lgbs')]//p[contains(@class, 'text_type_digits-default')]")
-
+    ORDER_NUMBER_LOCATOR = (By.XPATH, "//p[@class='text text_type_digits-default']")

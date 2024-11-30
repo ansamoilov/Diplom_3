@@ -1,7 +1,7 @@
 import allure
 import pytest
 
-from page_object.helpers import create_user_and_add_ingredient_to_basket
+from page_object.helpers import create_user_and_add_ingredient_to_basket, create_user_and_order
 from page_object.pages.main_page import MainPage
 
 from page_object.data import URLS
@@ -45,22 +45,16 @@ class TestMainFunctionality:
             basket_price = page.get_basket_price()
             assert basket_price != "0"
 
-    @allure.title("Отображение заказа в истории заказов")
-    @allure.description(
-        "Тест проверяет, что после создания заказа он отображается в истории заказов пользователя.")
     @pytest.mark.parametrize("is_logged_in", [True])
-    def test_create_user_and_order_with_ui_login_and_place_order(self, login_page, is_logged_in, user_data):
-        create_user_and_add_ingredient_to_basket(user_data, login_page)
+    def test_check_user_orders_history(self, login_page, is_logged_in, user_data):
+        order_id = create_user_and_order(user_data, login_page)
         for browser, page in login_page.items():
-            main_page = MainPage(page.driver)
-            main_page.check_url(URLS['main_page_url'])
-            main_page.click_place_order_button()
-            order_id = main_page.wait_for_order_id_to_change()
-            main_page.close_and_wait_for_modal_to_disappear()
-            main_page.click_profile_button()
-            profile_page = MyProfilePage(page.driver)
-            profile_page.click_orders_history_button()
-            profile_page.check_url(URLS['order_history_page_url'])
-            assert order_id in profile_page.get_order_number()
-
-
+            if is_logged_in:
+                page.check_url(URLS['main_page_url'])
+                main_page = MainPage(page.driver)
+                main_page.click_profile_button()
+                profile_page = MyProfilePage(page.driver)
+                profile_page.check_url(URLS['profile_page_url'])
+                profile_page.click_orders_history_button()
+                profile_page.check_url(URLS['order_history_page_url'])
+                assert str(order_id) in profile_page.get_order_number()
