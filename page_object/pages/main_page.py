@@ -102,4 +102,3 @@ class MainPage(BasePage):
         Получаем текущую цену в корзине.
         """
         return self.get_value_from_element(MainPageLocators.BASKET_PRICE_LOCATOR)
-

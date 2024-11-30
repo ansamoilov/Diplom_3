@@ -1,7 +1,7 @@
 import random
+import requests
 import string
 
-import requests
 from faker import Faker
 
 from page_object.data import URLS
@@ -153,21 +153,6 @@ def create_user_and_order(user_data, login_page):
         page.add_text_to_element(LoginPageLocators.PASSWORD_INPUT_LOGIN_PAGE, password)
         page.click_on_element_js(LoginPageLocators.LOGIN_BUTTON)
     return order_id
-
-
-def create_user_and_add_ingredient_to_basket(user_data, login_page):
-    """
-    Создает пользователя, авторизуется и добавляет ингредиент в корзину через UI.
-
-    :param user_data: данные пользователя, полученные из фикстуры
-    :param login_page: страница логина, используемая для UI-логина
-    """
-    for browser, page in login_page.items():
-        valid_credentials_log_in(page, user_data)
-    for browser, page in login_page.items():
-        main_page = MainPage(page.driver)
-        main_page.check_url(URLS['main_page_url'])
-        main_page.drag_ingredient_to_basket()
 
 
 def create_user_and_order_no_auth(user_data):

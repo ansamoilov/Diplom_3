@@ -1,7 +1,7 @@
 import pytest
 from selenium import webdriver
 from page_object.data import URLS
-from page_object.helpers import create_user_credentials, register_user, delete_user, get_ingredients
+from page_object.helpers import create_user_credentials, register_user, delete_user
 from page_object.pages.login_page import LoginPage
 from page_object.pages.main_page import MainPage
 from page_object.pages.forgot_password_page import ForgotPasswordPage
@@ -105,6 +105,3 @@ def feed_page(drivers):
         driver.get(URLS['orders_feed_url'])
         feed_pages[browser] = OrderFeedPage(driver)
     return feed_pages
-
-
-

@@ -1,7 +1,7 @@
 import allure
 import pytest
 
-from page_object.helpers import create_user_and_add_ingredient_to_basket, create_user_and_order
+from page_object.helpers import create_user_and_order
 from page_object.pages.main_page import MainPage
 
 from page_object.data import URLS
@@ -9,6 +9,9 @@ from page_object.pages.my_profile_page import MyProfilePage
 
 
 class TestMainFunctionality:
+    @allure.title('Проверка перехода по клику на "Конструктор"')
+    @allure.description(
+        'Тест проверяет, что после клика на кнопку "Конструктор" происходит переход на страницу с конструктором')
     @pytest.mark.parametrize("is_logged_in", [False])
     def test_go_to_constructor_page(self, constructor_page, is_logged_in):
         for browser, page in constructor_page.items():
@@ -22,6 +25,8 @@ class TestMainFunctionality:
             page.click_order_feed_button()
             page.check_url(URLS['orders_feed_page_url'])
 
+    @allure.title("Открытие модального окна при клике на ингредиент")
+    @allure.description("Проверка открытия модального окна при клике на ингредиент")
     def test_ingredient_modal_window(self, main_page):
         for browser, page in main_page.items():
             page.click_ingredient()
@@ -45,6 +50,8 @@ class TestMainFunctionality:
             basket_price = page.get_basket_price()
             assert basket_price != "0"
 
+    @allure.title("Отображение истории заказов")
+    @allure.description("Проверка, что созданный заказ отображается в истории заказов")
     @pytest.mark.parametrize("is_logged_in", [True])
     def test_check_user_orders_history(self, login_page, is_logged_in, user_data):
         order_id = create_user_and_order(user_data, login_page)

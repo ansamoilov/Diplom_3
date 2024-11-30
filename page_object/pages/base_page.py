@@ -221,33 +221,13 @@ class BasePage:
 
     def wait_for_element_text_change(self, locator, initial_value="9999", timeout=30):
         """
-        Ожидаем, что текст элемента изменится с начального значения "9999" на любое другое значение.
+        Ожидаем, что текст элемента изменится с начального значения на любое другое значение.
         """
-        # Ждем, пока элемент не станет видимым и его текст не изменится
         WebDriverWait(self.driver, timeout).until(
             lambda driver: self.get_text_from_element(locator) != initial_value
         )
         actual_value = self.get_text_from_element(locator)
         assert actual_value != initial_value, f"Ожидалось изменение значения с {initial_value}, но оно осталось прежним"
-
-    def open_url(self, url, timeout=20):
-        """
-        Открывает указанный URL и ожидает загрузки страницы.
-
-        :param url: URL, который нужно открыть
-        :param timeout: время ожидания (по умолчанию 10 секунд)
-        """
-        self.driver.get(url)
-        WebDriverWait(self.driver, timeout).until(
-            EC.url_to_be(url)
-        )
-
-    def open_url_via_js(self, url):
-        """
-        Открывает URL через JavaScript.
-        """
-        self.driver.execute_script(f"window.location = '{url}';")
-        WebDriverWait(self.driver, 10).until(EC.url_to_be(url))
 
     def find_all_elements(self, locator, timeout=20):
         """
@@ -261,13 +241,3 @@ class BasePage:
             EC.visibility_of_all_elements_located(locator)
         )
         return elements
-
-    def get_element_text(self, element):
-        """
-        Получает текст из переданного веб-элемента.
-
-        :param element: Веб-элемент, с которого нужно получить текст.
-        :return: Текст веб-элемента.
-        """
-        return element.text
-

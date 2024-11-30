@@ -8,11 +8,6 @@ from page_object.pages.general_methods import GeneralMethods
 class ResetPasswordPage(BasePage):
 
     def __init__(self, driver):
-        """
-        Инициализирует страницу сброса пароля.
-
-        :param driver: Экземпляр драйвера для взаимодействия с браузером
-        """
         super().__init__(driver)
         self.general_methods = GeneralMethods(driver)
 
