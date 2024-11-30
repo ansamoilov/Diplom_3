@@ -1,6 +1,8 @@
 import allure
 
+from page_object.locators.main_page_locators import MainPageLocators
 from page_object.locators.my_profile_page_locators import MyProfilePageLocators
+from page_object.locators.order_feed_page_locators import OrderFeedPageLocators
 from page_object.pages.base_page import BasePage
 
 
@@ -53,4 +55,23 @@ class MyProfilePage(BasePage):
         assert actual_order_id == str(
             expected_order_id), f"Ожидался order_id {expected_order_id}, но получен {actual_order_id}"
 
+    @allure.step("Тапаем на элемент истории заказов и ждем появления номера заказа в модальном окне")
+    def tap_order_and_wait_for_modal(self):
+        """
+        Тапает на элемент из истории заказов и ожидает появления номера заказа в модальном окне.
+        """
+        self.find_element_with_wait(MyProfilePageLocators.ORDER_HISTORY_LIST_ITEM_LOCATOR).click()
+        self.wait_for_element_to_be_present(MyProfilePageLocators.MODAL_ORDER_NUMBER_LOCATOR)
+        modal_window = self.find_element_with_wait(MyProfilePageLocators.MODAL_ORDER_NUMBER_LOCATOR)
+        assert modal_window.is_displayed()
+
+    @allure.step('Кликаем на кнопку "Лента заказов", ждем номер заказа и возвращаем его текст')
+    def click_order_feed_button(self):
+        """
+        Кликаем по кнопке "Лента заказов", ждем появления номера заказа и возвращаем текст из элемента.
+        """
+        self.click_to_element(OrderFeedPageLocators.ORDER_FEED_BUTTON_LOCATOR)
+        self.wait_for_element_to_be_present(OrderFeedPageLocators.ORDER_NUMBER_LOCATOR)
+        order_number = self.get_text_from_element(OrderFeedPageLocators.ORDER_NUMBER_LOCATOR)
+        return order_number
 

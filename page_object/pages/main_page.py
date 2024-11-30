@@ -42,7 +42,8 @@ class MainPage(BasePage):
         """
         Кликаем по кнопке "Лента заказов" на главной странице.
         """
-        self.click_to_element(MainPageLocators.ORDER_FEED_BUTTON_LOCATOR)
+        self.wait_element_to_be_clickable(MainPageLocators.ORDER_FEED_BUTTON_LOCATOR)
+        self.click_on_element_js(MainPageLocators.ORDER_FEED_BUTTON_LOCATOR)
 
     @allure.step('Кликаем на ингредиент')
     def click_ingredient(self):

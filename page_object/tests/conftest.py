@@ -5,6 +5,7 @@ from page_object.helpers import create_user_credentials, register_user, delete_u
 from page_object.pages.login_page import LoginPage
 from page_object.pages.main_page import MainPage
 from page_object.pages.forgot_password_page import ForgotPasswordPage
+from page_object.pages.order_feed_page import OrderFeedPage
 from page_object.pages.reset_password_page import ResetPasswordPage
 
 
@@ -94,12 +95,16 @@ def user_data():
     delete_user(token)
 
 
-@pytest.fixture(scope="session")
-def base_ingredients():
+@pytest.fixture(scope="function")
+def feed_page(drivers):
     """
-    Фикстура для получения списка ингредиентов.
-    Выполняется один раз за сессию.
+    Фикстура для открытия страницы 'Лента заказов'.
     """
-    response = get_ingredients()
-    assert response.status_code == 200, f"Ошибка при получении ингредиентов: {response.text}"
-    return response.json()["data"]
+    feed_pages = {}
+    for browser, driver in drivers.items():
+        driver.get(URLS['orders_feed_url'])
+        feed_pages[browser] = OrderFeedPage(driver)
+    return feed_pages
+
+
+

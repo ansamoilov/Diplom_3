@@ -229,3 +229,23 @@ class BasePage:
         )
         actual_value = self.get_text_from_element(locator)
         assert actual_value != initial_value, f"Ожидалось изменение значения с {initial_value}, но оно осталось прежним"
+
+    def open_url(self, url, timeout=20):
+        """
+        Открывает указанный URL и ожидает загрузки страницы.
+
+        :param url: URL, который нужно открыть
+        :param timeout: время ожидания (по умолчанию 10 секунд)
+        """
+        self.driver.get(url)
+        WebDriverWait(self.driver, timeout).until(
+            EC.url_to_be(url)
+        )
+
+    def open_url_via_js(self, url):
+        """
+        Открывает URL через JavaScript.
+        """
+        self.driver.execute_script(f"window.location = '{url}';")
+        WebDriverWait(self.driver, 10).until(EC.url_to_be(url))
+
